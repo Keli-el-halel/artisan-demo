@@ -1,0 +1,14 @@
+.navbarLinks{
+  cursor: pointer;
+  margin: 0px 10px;
+  color: #fff;
+  text-decoration: none;
+}
+
+.navbarLinks:hover{
+  color: #dfdfdf;
+}
+
+.navbarLinkActive{
+  text-decoration: underline;
+}
