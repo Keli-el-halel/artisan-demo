@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import { fetchFromStorage, saveInStorage, showAlert, showToast } from "../utils";
+import { fetchFromStorage, saveInStorage, showToast } from "../utils";
 
 function SignUpPage (){
 
@@ -9,10 +9,8 @@ function SignUpPage (){
     const [uType, setUtype] = useState('Customer');
 
     function signUp(){
-        console.log('uname', uname);
-        console.log('upass', upass);
-
         let users = fetchFromStorage('users');
+
         if (users) {
             users = JSON.parse(users);
             let duplicate = false;
@@ -43,9 +41,11 @@ function SignUpPage (){
         <div className="row m-auto mt-5">
             <div className="col-4 m-auto">
                 <h4>Sign Up To Artisan App</h4>
+                
                 <input className="form-control my-3" value={uname} onChange={(e) => setUname(e.target.value)} placeholder="Username" type="text" />
                 <input className="form-control my-3" value={uemail} onChange={(e) => setUemail(e.target.value)} placeholder="Email" type="email" />
                 <input className="form-control my-3" value={upass} onChange={(e) => setUpass(e.target.value)} placeholder="Password" type="password" />
+                
                 <div className="btn-group btn-group-toggle mx-auto mb-3 d-flex justify-content-center" data-toggle="buttons">
                     <label className="btn btn-outline-primary">
                         <input type="radio" name="options" id="option1" onClick={() => setUtype('Customer')} readOnly checked={uType == 'Customer'}/> Customer
@@ -54,6 +54,7 @@ function SignUpPage (){
                         <input type="radio" name="options" id="option2" onClick={() => setUtype('Artisan')} readOnly checked={uType == 'Artisan'}/> Artisan
                     </label>
                 </div>
+                
                 <div className="row w-100 m-auto">
                     <button className="btn btn-primary mx-auto w-25" onClick={() => signUp()} >Sign Up</button>
                 </div>

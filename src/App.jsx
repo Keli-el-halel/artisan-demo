@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { showAlert, showToast, returnFormattedDate, simpleSearch, delay } from "./utils";
 import { ToastContainer, Slide } from 'react-toastify';
 import Navbar from "./components/Navbar";
 import Login from "./pages/Login";
@@ -10,11 +9,6 @@ import Dashboard from "./pages/Dashboard";
 function App() {
 
   const [showThis, setShowThis] = useState(sessionStorage.getItem('user') ? 'Dashboard' : 'Welcome');
-  // const [delayTime, setDelayTime] = useState(2000);
-
-  async function doSomething(){
-    showAlert('Showing Time', returnFormattedDate(undefined, 'MM, dd, yyyy'), ()=> {showToast('Successful')}, 'Yea Close', 'Nah Revert');
-  }
 
   return (
     <div className="w-100">
