@@ -8,7 +8,7 @@ import Dashboard from "./pages/Dashboard";
 
 function App() {
 
-  const [showThis, setShowThis] = useState(sessionStorage.getItem('user') ? 'Dashboard' : 'Welcome');
+  const [showThis, setShowThis] = useState(localStorage.getItem('user') ? 'Dashboard' : 'Welcome');
 
   return (
     <div className="w-100">

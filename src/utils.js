@@ -53,9 +53,9 @@ export const showAlert = (title, message, callbackFunction, yesText, noText, yes
 }
 
 export const fetchFromStorage = (storageLocation) => {
-  return sessionStorage.getItem(storageLocation);
+  return localStorage.getItem(storageLocation);
 }
 
 export const saveInStorage = (storageLocation, data) => {
-  sessionStorage.setItem(storageLocation, data);
+  localStorage.setItem(storageLocation, data);
 }
