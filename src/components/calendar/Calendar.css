@@ -1,0 +1,117 @@
+.calendarContainer {
+    /* border: 2px solid #ccc; */
+    padding: 10px;
+    display: grid;
+    margin: auto;
+    width: -moz-fit-content;
+    width: fit-content;
+    height: -moz-fit-content;
+    height: fit-content;
+}
+
+.monthDiv{
+    font-weight: 500;
+    font-size: 1.2em;
+    width: auto;
+}
+
+.weekRow {
+    width: -moz-fit-content;
+    width: fit-content;
+    display: inline-flex;
+}
+
+.weekDayArea {
+    width: -moz-fit-content;
+    width: fit-content;
+    display: inline-flex;
+}
+
+.monthNameArea{
+    width: 100%;
+    display: inline-flex;
+    margin-bottom: 5%;
+    justify-content: space-around;
+}
+
+.eventBubble{
+    font-size: 0.25em;
+    margin: auto;
+}
+
+.monthToggleArrowArea{
+    display: flex;
+    text-align: left;
+    margin: auto;
+    gap: 100%;
+}
+
+.monthToggleArrow{
+    font-size: 0.9em;
+    cursor: pointer;
+}
+
+.weekDayBox{
+    width: 40px;
+    height: 40px;
+    margin: 1px;
+    position: relative;
+    display: grid;
+    text-align: center;
+    color: #999999;
+}
+
+
+.calendarDateBox{
+    width: 40px;
+    height: 40px;
+    /* border: 1px solid #c5c5c5; */
+    border-radius: 5px;
+    margin: 1px;
+    position: relative;
+    display: grid;
+    text-align: center;
+    overflow-x: hidden;
+}
+
+.calendarDateBox:hover{
+    cursor: pointer;
+    background: #98989823;
+}
+
+.todayStyle{
+    background: #98989823;
+}
+
+.selectedStyle{
+    border: 1px solid var(--app-color-disabled, #15141423);
+}
+
+.invisibleBox:hover{
+    cursor: auto;
+    background: none;
+}
+
+.date{
+    font-size: 85%;
+    margin: auto;
+    position: relative;
+    top: 20%;
+}
+
+.invisible{
+    visibility: hidden;
+}
+
+.bubbles{
+    margin: auto;
+    overflow-x: hidden;
+    position: relative;
+    bottom: 35%;
+    display: inline-flex;
+    justify-content: center;
+    gap: 1.2px;
+    width: auto;
+    height: stretch;
+    height: -webkit-fill-available;
+}
