@@ -1,5 +1,6 @@
 import React, {useState} from "react";
 import { fetchFromStorage, saveInStorage, showToast } from "../utils";
+import { v4 as uuidv4 } from 'uuid';
 
 function SignUpPage (){
 
@@ -7,6 +8,7 @@ function SignUpPage (){
     const [uemail, setUemail] = useState('');
     const [upass, setUpass] = useState('');
     const [uType, setUtype] = useState('Customer');
+    const [uJob, setUjob] = useState('');
 
     function signUp(){
         let users = fetchFromStorage('users');
@@ -29,12 +31,20 @@ function SignUpPage (){
         }
 
         users.push({
+            id: uType == 'Customer' ? 'customer-' + uuidv4().substring(0,5) : 'artisan-' + uuidv4().substring(0,5),
             username: uname,
             email: uemail,
-            password: upass
+            password: upass,
+            user_type: uType,
+            job: uJob
         })
         saveInStorage('users', JSON.stringify(users));
         showToast('User Saved');
+        setUname('');
+        setUemail('');
+        setUpass('');
+        setUtype('Customer');
+        setUjob('');
     }
 
     return (
@@ -55,6 +65,8 @@ function SignUpPage (){
                     </label>
                 </div>
                 
+                { uType == 'Artisan' && <input className="form-control my-3" value={uJob} onChange={(e) => setUjob(e.target.value)} placeholder="Job" type="text" />}
+
                 <div className="row w-100 m-auto">
                     <button className="btn btn-primary mx-auto w-25" onClick={() => signUp()} >Sign Up</button>
                 </div>

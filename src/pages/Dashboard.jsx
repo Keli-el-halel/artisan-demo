@@ -1,11 +1,14 @@
+import ArtisanDashboard from "./ArtisanDashboard";
+import CustomerDashboard from "./CustomerDashboard";
 
 function Dashboard (){
+
+    const signedInUser = JSON.parse(localStorage.getItem('user'));
+
     return (
-        <div className="row m-auto mt-5">
-            <div className="col-6 m-auto mt-5 text-center">
-                <h1 style={{color: "green"}}>Logged In As {JSON.parse(sessionStorage.getItem('user')).username}</h1>
-            </div>
-        </div>
+        <>
+            {signedInUser.user_type == 'Customer' ? <CustomerDashboard signedInUser={signedInUser}/> : <ArtisanDashboard signedInUser={signedInUser}/> }
+        </>
     )
 }
 
