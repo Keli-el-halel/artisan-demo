@@ -31,27 +31,7 @@ let CalendarFormat = {
 
 export const Calender = ({arrayOfEvents, filterEvents, returnEvents }) => {
     // const { changeMonth, incomingMonthDate } = useContext(EventsContext)
-    const myEvents = [{
-        "Event_Title": 'Pay Day',
-        "Event_Date": '2024-04-24',
-        "Priority": 1
-    },{
-        "Event_Title": 'Buy Zoomlion food',
-        "Event_Date": '2024-04-24',
-        "Priority": 3
-    },{
-        "Event_Title": 'Quantumania',
-        "Event_Date": '2024-04-17',
-        "Priority": 3
-    },{
-        "Event_Title": 'Buy T-Roll',
-        "Event_Date": '2024-04-25',
-        "Priority": 1
-    },{
-        "Event_Title": 'KFC Date',
-        "Event_Date": '2024-04-27',
-        "Priority": 2
-    }]
+    const myEvents = [];
 
     const [renderedCalendar, setrenderedCalendar] = useState({...CalendarFormat});
     // const {appColor, appColorDisabled} = useContext(AppContext);
@@ -137,7 +117,7 @@ export const Calender = ({arrayOfEvents, filterEvents, returnEvents }) => {
             })
         });
 
-        console.log(filledCalendar);
+        // console.log(filledCalendar);
         setrenderedCalendar(filledCalendar); // render the calendar we have populated
         // filterEvents(moment().format().substring(0,10));
         return [1];
@@ -165,7 +145,8 @@ export const Calender = ({arrayOfEvents, filterEvents, returnEvents }) => {
                         box.Events.push({Event_Details: task, Event_Color: '#1BC000'});                                    
                         break;                                                                
                     default:
-                        box.Events.push({Event_Details: task, Event_Color: appColor});                                    
+                        box.Events.push({Event_Details: task, Event_Color: '#000000'});
+                        box.Day = 'x';                                  
                         break;
                 }
             }
@@ -266,8 +247,8 @@ export const Calender = ({arrayOfEvents, filterEvents, returnEvents }) => {
                         {
                             renderedCalendar[week]['Boxes'].map((box, boxIndex) => (
                                 <div key={weekIndex + "-" + boxIndex} onClick={() => selectedDay(weekIndex, boxIndex)} className={returnCalendarBoxClass(box)}>
-                                    <span className={box.Day !== '' ? "date" : "date invisible"}>{box.Day !== '' ? box.Day : '-'}</span>
-                                    <div className={box.Events.length ? "bubbles" : "bubbles invisible"}>
+                                    <span className={box.Day !== '' ? box.Day == 'x' ? "date text-danger" : "date" : "date invisible"}>{box.Day !== '' ? box.Day : '-'}</span>
+                                    <div className={box.Events.length && box.Day !== 'x' ? "bubbles" : "bubbles invisible"}>
                                         {
                                             !box.Events.length ? <i className="fa fa-circle eventBubble"></i>
                                             :

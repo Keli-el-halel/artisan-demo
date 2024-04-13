@@ -3,7 +3,9 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import '@popperjs/core';
 import 'bootstrap/dist/css/bootstrap.css';
+import 'bootstrap/dist/js/bootstrap.bundle';
 
 const qClient = new QueryClient({
   defaultOptions: {

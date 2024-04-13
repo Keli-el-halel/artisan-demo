@@ -1,7 +1,10 @@
+import { useQuery } from "@tanstack/react-query";
+import moment from 'moment';
 import { useState } from 'react';
-import profileImg from '../assets/profile.png'
+import profileImg from '../assets/profile.png';
 import { Calender } from '../components/calendar/Calender';
-import { returnFormattedDate, showToast, saveInStorage, fetchFromStorage } from '../utils';
+import { returnFormattedDate, showToast, saveInStorage, fetchFromStorage, delay  } from '../utils';
+import { v4 as uuidv4 } from 'uuid';
 
 function ArtisanProfile ({signedInUser, artisan, setInView}){
 
@@ -9,9 +12,46 @@ function ArtisanProfile ({signedInUser, artisan, setInView}){
     const [appointmentDetails, setAppointmentDetails] = useState('');
     const [selectedDateFormatted, setSelectedDateFormatted] = useState(null);
 
+    const [appointments, setAppointments] = useState(localStorage.getItem('appointments') ? JSON.parse(localStorage.getItem('appointments')).filter(appointment => appointment.artisan.id == artisan.id) : []);    
+    const [calendarAppointments, setCalendarAppointments] = useState([]);
+    const [updating, setUpdating] = useState(false);
+
+    const {isLoading: renderingCalendar } = useQuery({ queryKey: ["calendarProcess"], queryFn: async () => {return await processAppointments()} });
+
+    async function processAppointments(incomingAppointments){
+        let apps = [];
+        let appsIn = incomingAppointments ? incomingAppointments : [...appointments];
+        console.log(appsIn);
+        appsIn.forEach(element => {
+            let priority = null;
+            if (element.customer.id == signedInUser.id) {
+                // console.log('here');
+                priority = element.status == 'requested' ? 2 : element.status == 'rejected' ? 1 : 3;
+            }
+        
+            apps.push({
+                id: element.appointment_id,
+                Event_Title: element.appointmentDetails,
+                Event_Date: element.appointment_date,
+                Priority: priority
+            });
+        });
+
+        console.log('appsfd', appsIn);
+        setCalendarAppointments(apps);
+        await delay(1000);
+        setUpdating(false);
+        return 1;
+    }
+
     function setAppointmentDate(returnedDayAndEvents){
         console.log(returnedDayAndEvents);
         if (returnedDayAndEvents.Events.length) {
+            // .forEach(element => {
+                
+            // });
+            // let oneisyours = returnedDayAndEvents.Events.find(element => element.Event_Details.id)
+            // if ()
             showToast('The artisan is occupied on this day', 'error');
             setSelectedDate('None');
         }
@@ -28,6 +68,7 @@ function ArtisanProfile ({signedInUser, artisan, setInView}){
         }
 
         let appBody = {
+            appointment_id: 'appointment-' + uuidv4().substring(0,5),
             customer: signedInUser,
             artisan: artisan,
             appointment_date: selectedDateFormatted,
@@ -52,8 +93,8 @@ function ArtisanProfile ({signedInUser, artisan, setInView}){
 
     return (
         <>
-            <div className="row m-auto mt-5">
-                <div className="col-6 m-auto mt-5 text-center">
+            <div className="row mx-auto mt-3">
+                <div className="col-6 mx-auto text-center">
                     <img src={profileImg} style={{width:"100px", borderRadius: '50%'}} />
                     <div className='d-flex justify-content-center gap-2'>
                         <h3>Artisan:</h3>
@@ -64,7 +105,7 @@ function ArtisanProfile ({signedInUser, artisan, setInView}){
                         <tbody>
                             <tr style={{height: "50px"}}>
                                 <td>ID: </td>
-                                <td>{artisan.id}</td>                                
+                                <td>{artisan.id}</td>                       
                             </tr>
                             <tr style={{height: "50px"}}>
                                 <td>Job: </td>
@@ -88,7 +129,7 @@ function ArtisanProfile ({signedInUser, artisan, setInView}){
                 
             <div className="col-6 m-auto mt-1 text-center">
 
-                <Calender returnEvents={setAppointmentDate}/>
+                {!updating && <Calender arrayOfEvents={calendarAppointments} returnEvents={setAppointmentDate}/>}
 
 
                 <div className='d-flex justify-content-center gap-2'>

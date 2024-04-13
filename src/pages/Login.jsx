@@ -4,8 +4,8 @@ import { fetchFromStorage, saveInStorage, showAlert, showToast } from "../utils"
 function Login ({setShowThis}){
 
     // const [uname, setUname] = useState('');
-    const [uemail, setUemail] = useState('');
-    const [upass, setUpass] = useState('');
+    const [uemail, setUemail] = useState('@gmail.com');
+    const [upass, setUpass] = useState('1234');
 
     function logIn(){
         let users = fetchFromStorage('users');

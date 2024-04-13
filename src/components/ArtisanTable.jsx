@@ -5,13 +5,13 @@ function ArtisanTable ({artisanSelected}){
 
     return (
         <>
-            <div className="row m-auto mt-5">
-                <div className="col-6 m-auto mt-5 text-center">
+            <div className="row m-auto">
+                <div className="col-6 m-auto mt-3 text-center">
                     <h1>Artisans</h1>
                 </div>
             </div>
 
-            <div className="row m-auto mt-5 w-50">
+            <div className="row m-auto mt-3 w-50">
                 <table>
                     <thead>
                         <tr style={{backgroundColor: "#000", color: "#fff", height: "40px"}}>

@@ -39,6 +39,11 @@
     margin: auto;
 }
 
+.eventBlocked{
+    font-size: 0.25em;
+    margin: auto;
+}
+
 .monthToggleArrowArea{
     display: flex;
     text-align: left;
