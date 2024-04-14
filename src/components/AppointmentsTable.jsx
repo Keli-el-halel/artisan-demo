@@ -1,16 +1,15 @@
-import { returnFormattedDate, showToast, saveInStorage, fetchFromStorage, showAlert } from '../utils';
+import { returnFormattedDate, saveInStorage, fetchFromStorage, showAlert } from '../utils';
 import '../App.css';
 import { useState } from 'react';
 
 function AppointmentsTable ({signedInUser, artisanSelected}){
 
-    const [appointments, setAppointments] = useState(localStorage.getItem('appointments') ? JSON.parse(localStorage.getItem('appointments')).filter(appointment => appointment.customer.id == signedInUser.id) : []);    
-    const [drpStatus, setDrpStatus] = useState(false);
+    const [appointments, setAppointments] = useState(localStorage.getItem('appointments') ? JSON.parse(localStorage.getItem('appointments')).filter(appointment => appointment.customer.id === signedInUser.id) : []);    
 
     function toggleDropdown(appointment){
         let apps = [...appointments];
         apps.forEach(element => {
-            if (element.appointment_id == appointment.appointment_id) {
+            if (element.appointment_id === appointment.appointment_id) {
                 element.drpStatus = !element.drpStatus;
             }
         });
@@ -34,13 +33,13 @@ function AppointmentsTable ({signedInUser, artisanSelected}){
         let apps = [...appointmentsDB];
         apps.forEach((element, index) => {
             delete element.drpStatus;
-            if (element.appointment_id == appointment.appointment_id) {
+            if (element.appointment_id === appointment.appointment_id) {
                 apps.splice(index, 1);
             }
         });
 
         console.log(apps);
-        let myappointments = apps.filter(app => app.customer.id == signedInUser.id);
+        let myappointments = apps.filter(app => app.customer.id === signedInUser.id);
         setAppointments(myappointments);
         saveInStorage('appointments', JSON.stringify(apps));
     }
@@ -75,16 +74,16 @@ function AppointmentsTable ({signedInUser, artisanSelected}){
                                         <td>{appointment.artisan.username}</td>
                                         <td>{appointment.appointmentDetails}</td>
                                         <td>
-                                            {appointment.status == 'requested' && <div className="chip requested">{appointment.status}</div>}
-                                            {appointment.status == 'rejected' && <div className="chip rejected">{appointment.status}</div>}
-                                            {appointment.status == 'confirmed' && <div className="chip confirmed">{appointment.status}</div>}
+                                            {appointment.status === 'requested' && <div className="chip requested">{appointment.status}</div>}
+                                            {appointment.status === 'rejected' && <div className="chip rejected">{appointment.status}</div>}
+                                            {appointment.status === 'confirmed' && <div className="chip confirmed">{appointment.status}</div>}
                                         </td>
                                         <td>
                                             <div className="drp">
                                                 <div className={appointment.drpStatus ? "drp-toggle drp-active" : "drp-toggle"} onClick={() => toggleDropdown(appointment)}> <i className='fa fa-bars'></i> </div>
                                                 <div className={appointment.drpStatus ? "drp-menu" : "drp-menu-off"} id="drpMenu">
-                                                    {appointment.status == 'confirmed' && <div style={{color: "#f54b5e"}} onClick={() => preCancelAppointment(appointment, 'close')}>Close Appointment</div>}
-                                                    {(appointment.status == 'rejected' || appointment.status == 'requested') && <div style={{color: "#f54b5e"}} onClick={() => preCancelAppointment(appointment)}>Cancel Appointment</div>}
+                                                    {appointment.status === 'confirmed' && <div style={{color: "#f54b5e"}} onClick={() => preCancelAppointment(appointment, 'close')}>Close Appointment</div>}
+                                                    {(appointment.status === 'rejected' || appointment.status === 'requested') && <div style={{color: "#f54b5e"}} onClick={() => preCancelAppointment(appointment)}>Cancel Appointment</div>}
                                                 </div>
                                             </div>
                                         </td>

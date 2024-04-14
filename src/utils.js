@@ -10,7 +10,7 @@ export const delay = (ms) => {
 }
 
 export const showToast = (message, type) => { // ensure that the 'ToastContainer & Slide' are imported somewhere in the js file as well as the ReactToastify css import
-  if (type == 'error') {
+  if (type === 'error') {
     toast.error(message, {position: 'bottom-center', autoClose: 1000});  
   } else {
     toast(message, {position: 'bottom-center', autoClose: 2000});    

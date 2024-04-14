@@ -1,12 +1,7 @@
-import {useState, useContext} from 'react'
-// import { Link } from 'react-router-dom';
-// import * as apiCalls from '../../hooks/APIrequests';
-// import {CalendarFormat} from '../../hooks/JSONBodies';
+import {useState} from 'react'
 import { useQuery } from "@tanstack/react-query";
 import './Calendar.css';
 import moment from 'moment';
-// import { AppContext } from '../../context/AppContext';
-// import { EventsContext } from '../../context/TaskScheduleContexts/EventsContext';
 
 let CalendarFormat = {
     "Week_1": {
@@ -30,12 +25,9 @@ let CalendarFormat = {
 };
 
 export const Calender = ({arrayOfEvents, filterEvents, returnEvents }) => {
-    // const { changeMonth, incomingMonthDate } = useContext(EventsContext)
     const myEvents = [];
 
     const [renderedCalendar, setrenderedCalendar] = useState({...CalendarFormat});
-    // const {appColor, appColorDisabled} = useContext(AppContext);
-    const appColor = '#6fa6e6'; 
 
     const [theMoment, setTheMoment] = useState(moment().format().substring(0,10));
     const [monthInView, setMonthInView] = useState(moment().format('MMMM') + " " + moment().format('YYYY'));
@@ -69,7 +61,6 @@ export const Calender = ({arrayOfEvents, filterEvents, returnEvents }) => {
 
         // for each week in our calendar format
         Object.keys(filledCalendar).forEach((week, weekIndex) => {
-            // console.log(daysInMonth);
             // if the days are already completely filled in before entering Week_6 boxes, then delete the entire Week_6 calendar row
             // if (currentDay > daysInMonth && weekIndex === 5) {
             //     delete filledCalendar['Week_6'];
@@ -78,8 +69,6 @@ export const Calender = ({arrayOfEvents, filterEvents, returnEvents }) => {
 
             // for each box (day) in a week...
             filledCalendar[week]['Boxes'].forEach((box, boxIndex)=> {
-
-                // console.log('here', filledCalendar);
 
                 // if the box is in an index before the 1st day of the week, make it empty
                 if (!startedFilling) {
@@ -117,10 +106,9 @@ export const Calender = ({arrayOfEvents, filterEvents, returnEvents }) => {
             })
         });
 
-        // console.log(filledCalendar);
         setrenderedCalendar(filledCalendar); // render the calendar we have populated
         // filterEvents(moment().format().substring(0,10));
-        return [1];
+        return theMoment;
     }
 
     function extraCalendarProcessing(box, latestMoment, currentDay, stagedEvents, dayNum){
@@ -179,7 +167,7 @@ export const Calender = ({arrayOfEvents, filterEvents, returnEvents }) => {
     }
 
     function selectedDay(weekIndex, boxIndex){
-        let daysEvents = [];
+        // let daysEvents = [];
         let calendarCopy = {...CalendarFormat};
         Object.keys(calendarCopy).forEach((week, wI) => {
             calendarCopy[week]['Boxes'].forEach((box, bI)=> {
@@ -191,7 +179,7 @@ export const Calender = ({arrayOfEvents, filterEvents, returnEvents }) => {
                     
                     returnEvents(box);
                     box.Selected_Day = true;
-                    daysEvents = box.Events;
+                    // daysEvents = box.Events;
                 }
                 else{
                     box.Selected_Day = false;
@@ -213,7 +201,7 @@ export const Calender = ({arrayOfEvents, filterEvents, returnEvents }) => {
     function navToNextMonth(){
         let currentMoment = theMoment;
         let newmoment = moment(currentMoment).add(1, 'months').format().substring(0,10);
-        let newMonth = moment(newmoment).format('MMM');
+        // let newMonth = moment(newmoment).format('MMM');
         // changeMonth(newMonth);
         renderDays(newmoment);
     }
@@ -247,7 +235,7 @@ export const Calender = ({arrayOfEvents, filterEvents, returnEvents }) => {
                         {
                             renderedCalendar[week]['Boxes'].map((box, boxIndex) => (
                                 <div key={weekIndex + "-" + boxIndex} onClick={() => selectedDay(weekIndex, boxIndex)} className={returnCalendarBoxClass(box)}>
-                                    <span className={box.Day !== '' ? box.Day == 'x' ? "date text-danger" : "date" : "date invisible"}>{box.Day !== '' ? box.Day : '-'}</span>
+                                    <span className={box.Day !== '' ? box.Day === 'x' ? "date text-danger" : "date" : "date invisible"}>{box.Day !== '' ? box.Day : '-'}</span>
                                     <div className={box.Events.length && box.Day !== 'x' ? "bubbles" : "bubbles invisible"}>
                                         {
                                             !box.Events.length ? <i className="fa fa-circle eventBubble"></i>

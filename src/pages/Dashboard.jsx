@@ -7,7 +7,7 @@ function Dashboard (){
 
     return (
         <>
-            {signedInUser.user_type == 'Customer' ? <CustomerDashboard signedInUser={signedInUser}/> : <ArtisanDashboard signedInUser={signedInUser}/> }
+            {signedInUser.user_type === 'Customer' ? <CustomerDashboard signedInUser={signedInUser}/> : <ArtisanDashboard signedInUser={signedInUser}/> }
         </>
     )
 }

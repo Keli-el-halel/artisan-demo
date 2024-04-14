@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import moment from 'moment';
+// import moment from 'moment';
 import { useState } from 'react';
 import profileImg from '../assets/profile.png';
 import { Calender } from '../components/calendar/Calender';
@@ -12,11 +12,12 @@ function ArtisanProfile ({signedInUser, artisan, setInView}){
     const [appointmentDetails, setAppointmentDetails] = useState('');
     const [selectedDateFormatted, setSelectedDateFormatted] = useState(null);
 
-    const [appointments, setAppointments] = useState(localStorage.getItem('appointments') ? JSON.parse(localStorage.getItem('appointments')).filter(appointment => appointment.artisan.id == artisan.id) : []);    
+    const [appointments] = useState(localStorage.getItem('appointments') ? JSON.parse(localStorage.getItem('appointments')).filter(appointment => appointment.artisan.id === artisan.id) : []);    
     const [calendarAppointments, setCalendarAppointments] = useState([]);
     const [updating, setUpdating] = useState(false);
+    const [opennedFresh, setOpennedFresh] = useState(true);
 
-    const {isLoading: renderingCalendar } = useQuery({ queryKey: ["calendarProcess"], queryFn: async () => {return await processAppointments()} });
+    useQuery({ queryKey: ["calendarProcess"], queryFn: async () => {return await processAppointments()} });
 
     async function processAppointments(incomingAppointments){
         let apps = [];
@@ -24,9 +25,9 @@ function ArtisanProfile ({signedInUser, artisan, setInView}){
         console.log(appsIn);
         appsIn.forEach(element => {
             let priority = null;
-            if (element.customer.id == signedInUser.id) {
+            if (element.customer.id === signedInUser.id) {
                 // console.log('here');
-                priority = element.status == 'requested' ? 2 : element.status == 'rejected' ? 1 : 3;
+                priority = element.status === 'requested' ? 2 : element.status === 'rejected' ? 1 : 3;
             }
         
             apps.push({
@@ -40,6 +41,7 @@ function ArtisanProfile ({signedInUser, artisan, setInView}){
         console.log('appsfd', appsIn);
         setCalendarAppointments(apps);
         await delay(1000);
+        setOpennedFresh(false);
         setUpdating(false);
         return 1;
     }
@@ -62,7 +64,7 @@ function ArtisanProfile ({signedInUser, artisan, setInView}){
     }
 
     function requestAppointment(){
-        if (selectedDateFormatted == '') {
+        if (selectedDateFormatted === '') {
             showToast('Please Select A Date', 'error');
             return;
         }
@@ -94,8 +96,8 @@ function ArtisanProfile ({signedInUser, artisan, setInView}){
     return (
         <>
             <div className="row mx-auto mt-3">
-                <div className="col-6 mx-auto text-center">
-                    <img src={profileImg} style={{width:"100px", borderRadius: '50%'}} />
+                <div className={opennedFresh ? "col-6 text-center" : "col-6 mx-auto text-center"}>
+                    <img src={profileImg} alt="profile" style={{width:"100px", borderRadius: '50%'}} />
                     <div className='d-flex justify-content-center gap-2'>
                         <h3>Artisan:</h3>
                         <h3>{artisan.username}</h3>
@@ -124,10 +126,8 @@ function ArtisanProfile ({signedInUser, artisan, setInView}){
 
 
                 </div>
-
-                {/* Calender */}
                 
-            <div className="col-6 m-auto mt-1 text-center">
+            {!opennedFresh && <div className="col-6 m-auto mt-1 text-center">
 
                 {!updating && <Calender arrayOfEvents={calendarAppointments} returnEvents={setAppointmentDate}/>}
 
@@ -140,8 +140,8 @@ function ArtisanProfile ({signedInUser, artisan, setInView}){
                 <textarea value={appointmentDetails} onChange={(e) => setAppointmentDetails(e.target.value)} type="text" className='form-control w-50 mx-auto mb-2' placeholder='Appointment Details' />
 
 
-                <button disabled={selectedDate == 'None'} onClick={() => requestAppointment()} className="btn btn-outline-dark rounded-pill mt-3">Request Appointment</button>
-            </div>
+                <button disabled={selectedDate === 'None'} onClick={() => requestAppointment()} className="btn btn-outline-dark rounded-pill mt-3">Request Appointment</button>
+            </div>}
 
 
             </div>

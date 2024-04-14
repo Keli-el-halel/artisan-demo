@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import { fetchFromStorage, saveInStorage, showAlert, showToast } from "../utils";
+import { fetchFromStorage, saveInStorage, showToast } from "../utils";
 
 function Login ({setShowThis}){
 
@@ -12,7 +12,7 @@ function Login ({setShowThis}){
 
         if (users) {
             users = JSON.parse(users);
-            let userfound = users.find(user => user.email == uemail && user.password == upass);
+            let userfound = users.find(user => user.email === uemail && user.password === upass);
             if (userfound) {
                 showToast('Welcome back ' + userfound.username);
                 saveInStorage('user', JSON.stringify(userfound));

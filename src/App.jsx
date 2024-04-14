@@ -13,10 +13,10 @@ function App() {
   return (
     <div className="w-100">
       <Navbar setShowThis={setShowThis} showThis={showThis}/>
-      {showThis == 'Welcome' && <WelcomePage/>}
-      {showThis == 'Sign Up' && <SignUpPage/>}
-      {showThis == 'Login' && <Login setShowThis={setShowThis}/>}
-      {showThis == 'Dashboard' && <Dashboard/>}
+      {showThis === 'Welcome' && <WelcomePage/>}
+      {showThis === 'Sign Up' && <SignUpPage/>}
+      {showThis === 'Login' && <Login setShowThis={setShowThis}/>}
+      {showThis === 'Dashboard' && <Dashboard/>}
       <ToastContainer hideProgressBar transition={Slide} />
     </div>
   );

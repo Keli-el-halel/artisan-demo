@@ -1,7 +1,7 @@
 
 function ArtisanTable ({artisanSelected}){
 
-    const allUsers = JSON.parse(localStorage.getItem('users')).filter(user => user.user_type == 'Artisan');
+    const allUsers = JSON.parse(localStorage.getItem('users')).filter(user => user.user_type === 'Artisan');
 
     return (
         <>
